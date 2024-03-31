@@ -17,10 +17,21 @@ namespace LAB2
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// /////////////////////////////////////////khai báo ////////////////////////////////////////////
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
+            hoten.TabIndex = 1;
+            mssv.TabIndex = 2;
+            sdt.TabIndex = 3;
+            van.TabIndex = 4;
+            toan.TabIndex = 5;
+            nutluu.TabIndex = 6;
+            nutxuat.TabStop = false;
         }
+
 
 
         [Serializable]
@@ -39,11 +50,15 @@ namespace LAB2
         }
 
         List<Student> students = new List<Student>();
+
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
 
+        ///////////////////////////////////////////textbox//////////////////////////////////////////        
 
         private void hoten_TextChanged(object sender, EventArgs e)
         {
@@ -71,7 +86,7 @@ namespace LAB2
                 {
                     MessageBox.Show("Vui lòng nhập số trong khoảng từ 0 đến 10", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                
+
             }
         }
 
@@ -90,12 +105,38 @@ namespace LAB2
             }
         }
 
+        /// <summary>
+        /// ////////////////////////////////////////////////////////////keypress///////////////////////////////////////////////////
+        private void hoten_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+
+                e.Handled = true;
+                SelectNextControl((Control)sender, true, true, true, true);
+            }
+            int code = Convert.ToInt32(e.KeyChar);
+
+            if (!((code >= 48 && code <= 57) || code == 45 || code == 46 || code == 44))
+            {
+                e.Handled = false;
+            }
+            else e.Handled = true;
+        }
+
         private void mssv_KeyPress(object sender, KeyPressEventArgs e)
         {
 
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+
+                e.Handled = true;
+                SelectNextControl((Control)sender, true, true, true, true);
+            }
             int code = Convert.ToInt32(e.KeyChar);
 
-            if ((code >= 48 && code <= 57) || code == 8  || code == 46 || code == 44)
+            if ((code >= 48 && code <= 57) || code == 8 || code == 13)
             {
                 e.Handled = false;
             }
@@ -104,9 +145,16 @@ namespace LAB2
 
         private void sdt_KeyPress(object sender, KeyPressEventArgs e)
         {
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+
+                e.Handled = true;
+                SelectNextControl((Control)sender, true, true, true, true);
+            }
             int code = Convert.ToInt32(e.KeyChar);
 
-            if ((code >= 48 && code <= 57) || code == 8 || code == 46 || code == 44)
+            if ((code >= 48 && code <= 57) || code == 8 || code == 13)
             {
                 e.Handled = false;
             }
@@ -116,9 +164,16 @@ namespace LAB2
 
         private void van_KeyPress(object sender, KeyPressEventArgs e)
         {
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+
+                e.Handled = true;
+                SelectNextControl((Control)sender, true, true, true, true);
+            }
             int code = Convert.ToInt32(e.KeyChar);
 
-            if ((code >= 48 && code <= 57) || code == 8 || code == 45 || code == 32 || code == 46 || code == 44)
+            if ((code >= 48 && code <= 57) || code == 8 || code == 45 || code == 32 || code == 46 || code == 44 || code == 13)
             {
                 e.Handled = false;
             }
@@ -127,9 +182,16 @@ namespace LAB2
 
         private void toan_KeyPress(object sender, KeyPressEventArgs e)
         {
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+
+                e.Handled = true;
+                SelectNextControl((Control)sender, true, true, true, true);
+            }
             int code = Convert.ToInt32(e.KeyChar);
 
-            if ((code >= 48 && code <= 57) || code == 8 || code == 45 || code == 32 || code == 46 || code == 44)
+            if ((code >= 48 && code <= 57) || code == 8 || code == 45 || code == 32 || code == 46 || code == 44 || code == 13)
             {
                 e.Handled = false;
             }
@@ -137,19 +199,18 @@ namespace LAB2
 
         }
 
-        private void hoten_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            int code = Convert.ToInt32(e.KeyChar);
 
-            if (!((code >= 48 && code <= 57) || code == 45  || code == 46 || code == 44))
-            {
-                e.Handled = false;
-            }
-            else e.Handled = true;
-        }
+
+        ////////////////////////////////////////////////////////////button////////////////////////////////////////////////////////
 
         private void nutluu_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(hoten.Text) || string.IsNullOrEmpty(mssv.Text) || string.IsNullOrEmpty(sdt.Text) || string.IsNullOrEmpty(van.Text) || string.IsNullOrEmpty(toan.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string dv = van.Text;
             dv = dv.Replace(".", ",");
             string dt = toan.Text;
@@ -160,8 +221,8 @@ namespace LAB2
             {
                 HoTen = hoten.Text,
                 MSSV = mssv.Text,
-                DienThoai=sdt.Text,
-                DiemVan=double.Parse(dv),
+                DienThoai = sdt.Text,
+                DiemVan = double.Parse(dv),
                 DiemToan = double.Parse(dt),
             };
 
@@ -175,14 +236,14 @@ namespace LAB2
 
             BinaryFormatter formatter = new BinaryFormatter();
 
-           
+
             using (FileStream fs = new FileStream(@"input.txt", FileMode.Create))
             {
-               
+
                 formatter.Serialize(fs, students);
             }
 
-           
+
         }
 
         private void nutxuat_Click(object sender, EventArgs e)
@@ -198,7 +259,7 @@ namespace LAB2
                 foreach (Student student in students)
                 {
 
-                    double dtb = Math.Round(student.DTB(),2);
+                    double dtb = Math.Round(student.DTB(), 2);
 
 
                     writer.WriteLine(student.MSSV);
@@ -214,24 +275,30 @@ namespace LAB2
 
                 try
                 {
-                    Process.Start(@"output.txt");
+                    Process.Start(@"input.txt");
                 }
                 catch (Exception ex)
                 {
-                    // Xử lý lỗi nếu có
+
                     MessageBox.Show("Không thể mở tệp tin. Lỗi: " + ex.Message);
                 }
 
                 try
                 {
-                    Process.Start(@"input.txt");
+                    Process.Start(@"output.txt");
                 }
                 catch (Exception ex)
                 {
-                    // Xử lý lỗi nếu có
+
                     MessageBox.Show("Không thể mở tệp tin. Lỗi: " + ex.Message);
                 }
+
+
+
+
             }
         }
+
+
     }
 }

@@ -49,6 +49,7 @@
             this.hoten.Size = new System.Drawing.Size(190, 22);
             this.hoten.TabIndex = 0;
             this.hoten.TextChanged += new System.EventHandler(this.hoten_TextChanged);
+           
             this.hoten.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.hoten_KeyPress);
             // 
             // van
